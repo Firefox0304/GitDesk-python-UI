@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitDesk</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="mock" hidden>預覽模式：目前顯示的是模擬資料，用 GitDesk.pyw 開啟才會操作真實的 Git</div>
+<div class="app">
+<aside>
+ <h1>Git<i>Desk</i></h1>
+ <button id="addBtn">新增資料夾</button>
+ <ul id="recents"></ul>
+</aside>
+<main>
+ <div id="empty"></div>
+ <section id="work" hidden>
+  <div class="bar">
+   <div class="t"><b id="rname"></b><div id="rpath" class="mono"></div></div>
+   <select id="branch" aria-label="分支"></select>
+   <button id="newBranch">新分支</button>
+   <button id="pull">拉取</button>
+   <div class="split">
+    <button id="push" class="primary">推送</button>
+    <button id="pushMore" class="primary" aria-label="更多推送選項">▾</button>
+    <div id="pushMenu" class="menu" hidden><button id="reword" disabled title="沒有尚未推送的提交">修改 commit 訊息</button><hr><button id="force" class="danger">強制推送</button></div>
+   </div>
+  </div>
+  <nav class="tabs">
+   <button data-t="changes" class="on">變更</button><button data-t="log">紀錄</button><button data-t="term">終端機</button><button data-t="gh">GitHub</button><i id="tabInd"></i>
+  </nav>
+  <div id="p-changes" class="pane">
+   <div class="sel"><span id="cnt"></span><span><a id="all">全選</a>　<a id="none">全不選</a></span></div>
+   <div id="flist"></div>
+  </div>
+  <div id="p-log" class="pane" hidden></div>
+  <div id="p-term" class="pane" hidden>
+   <div id="xterm"></div>
+   <div id="tmsg" class="none" hidden></div>
+  </div>
+  <div id="p-gh" class="pane" hidden>
+   <div class="sec"><h3>Personal Access Token</h3>
+    <div class="f"><input type="password" id="tok" placeholder="ghp_… 或 github_pat_…" autocomplete="off"><button id="saveTok">儲存</button></div>
+    <p class="none" style="padding:6px 0 0">Token 只存在這台電腦的設定檔，需要 repo 權限。</p></div>
+   <div class="sec"><h3>此資料夾的遠端</h3><button id="mkRemote">在 GitHub 建立遠端 repo</button></div>
+   <div class="sec" style="max-width:none"><h3>我的 repo</h3><div id="ghlist"><div class="none">儲存 Token 後會列出你的 repo</div></div></div>
+  </div>
+  <div class="commit" id="cbox">
+   <textarea id="msg" placeholder="Commit 訊息"></textarea>
+   <button id="commit" class="primary" disabled>提交</button>
+  </div>
+ </section>
+</main>
+</div>
+
+<div id="menu" class="menu" hidden>
+ <button data-a="tree">顯示結構樹狀圖</button>
+ <button data-a="open">開啟資料夾</button>
+ <button data-a="remove">移除資料夾</button>
+ <button data-a="delete" class="danger">刪除資料夾</button>
+</div>
+
+<dialog id="dlg"><form method="dialog"><b id="dt"></b><p id="dm"></p><input id="di" type="text" autocomplete="off"><div class="a"><button type="button" id="dc">取消</button><button value="ok" class="primary">確定</button></div></form></dialog>
+<dialog id="addDlg"><form method="dialog"><b>新增資料夾</b><input id="addPath" type="text" placeholder="貼上資料夾路徑，或使用下方按鈕" autocomplete="off">
+ <div class="a"><button type="button" id="browse">瀏覽...</button><span class="sp"></span><button type="button" id="addCancel">取消</button><button value="ok" class="primary">新增</button></div></form></dialog>
+<dialog id="rwDlg"><form method="dialog"><b>修改 commit 訊息</b><p class="hint">只能修改尚未推送的提交。選一筆後編輯訊息。</p><div id="rwList" class="rwl"></div><textarea id="rwMsg" rows="4" placeholder="Commit 訊息"></textarea><p id="rwNote" class="hint" hidden></p><div class="a"><button type="button" id="rwCancel">取消</button><button type="button" id="rwOk" class="primary">確定</button></div></form></dialog>
+<dialog id="treeDlg"><form method="dialog"><b id="treeTitle"></b><pre id="treeTxt"></pre><div class="a"><button class="primary">關閉</button></div></form></dialog>
+<div id="toast" role="status"></div>
+<script src="js/mock.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
